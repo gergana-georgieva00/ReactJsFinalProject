@@ -1,85 +1,46 @@
-import { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
-import NotesList from './components/NotesList';
-import Search from './components/Search';
-import Header from './components/Header';
+import { lazy, Suspense } from 'react';
+import { Switch, Route } from 'react-router-dom';
 
-const App = () => {
-	const [notes, setNotes] = useState([
-		{
-			id: nanoid(),
-			text: 'This is my first note!',
-			date: '15/04/2021',
-		},
-		{
-			id: nanoid(),
-			text: 'This is my second note!',
-			date: '21/04/2021',
-		},
-		{
-			id: nanoid(),
-			text: 'This is my third note!',
-			date: '28/04/2021',
-		},
-		{
-			id: nanoid(),
-			text: 'This is my new note!',
-			date: '30/04/2021',
-		},
-	]);
+import { AuthProvider } from './contexts/authContext';
+import Path from './paths';
 
-	const [searchText, setSearchText] = useState('');
+import Header from "./components/Header"
+import Home from "./components/Home"
+import NoteList from './components/NoteList';
+import NoteCreate from './components/NoteCreate';
+import Login from './components/Login';
+import Logout from './components/Logout';
+import Register from './components/Register';
+import NoteEdit from './components/NoteEdit';
+import ErrorBoundary from './components/ErrorBoundary';
+import AuthGuard from './components/AuthGuard';
+const NoteDetails = lazy(() => import('./components/NoteDetails'));
 
-	const [darkMode, setDarkMode] = useState(false);
+function App() {
+    return (
+        <ErrorBoundary>
+            <AuthProvider>
+                <div id="box">
+                    <Header />
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                        <Switch>
+                            <Route path={Path.Home} element={<Home />} />
+                            <Route path="/notes" element={<NoteList />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/notes/:noteId" element={<NoteDetails />} />
 
-	useEffect(() => {
-		const savedNotes = JSON.parse(
-			localStorage.getItem('react-notes-app-data')
-		);
+                            <Route element={<AuthGuard />}>
+                                <Route path="/notes/create" element={<NoteCreate />} />
+                                <Route path={Path.NoteEdit} element={<NoteEdit />} />
+                                <Route path={Path.Logout} element={<Logout />} />
+                            </Route>
+                        </Switch>
+                    </Suspense>
+                </div>
+            </AuthProvider>
+        </ErrorBoundary>
+    )
+}
 
-		if (savedNotes) {
-			setNotes(savedNotes);
-		}
-	}, []);
-
-	useEffect(() => {
-		localStorage.setItem(
-			'react-notes-app-data',
-			JSON.stringify(notes)
-		);
-	}, [notes]);
-
-	const addNote = (text) => {
-		const date = new Date();
-		const newNote = {
-			id: nanoid(),
-			text: text,
-			date: date.toLocaleDateString(),
-		};
-		const newNotes = [...notes, newNote];
-		setNotes(newNotes);
-	};
-
-	const deleteNote = (id) => {
-		const newNotes = notes.filter((note) => note.id !== id);
-		setNotes(newNotes);
-	};
-
-	return (
-		<div className={`${darkMode && 'dark-mode'}`}>
-			<div className='container'>
-				<Header handleToggleDarkMode={setDarkMode} />
-				<Search handleSearchNote={setSearchText} />
-				<NotesList
-					notes={notes.filter((note) =>
-						note.text.toLowerCase().includes(searchText)
-					)}
-					handleAddNote={addNote}
-					handleDeleteNote={deleteNote}
-				/>
-			</div>
-		</div>
-	);
-};
-
-export default App;
+export default App

@@ -1,21 +1,33 @@
-import React from 'react';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import AuthContext from '../contexts/authContext';
 
-const Header = ({ handleToggleDarkMode }) => {
-	return (
-		<div className='header'>
-			<h1>Notes</h1>
-			<button
-				onClick={() =>
-					handleToggleDarkMode(
-						(previousDarkMode) => !previousDarkMode
-					)
-				}
-				className='save'
-			>
-				Toggle Mode
-			</button>
-		</div>
-	);
-};
+export default function Header() {
+    const {
+        isAuthenticated,
+        username,
+    } = useContext(AuthContext);
 
-export default Header;
+    return (
+        <header>
+            <h1><Link className="home" to="/">Notes</Link></h1>
+            <nav>
+                <Link to="/notes">All notes</Link>
+                {isAuthenticated && (
+                    <div id="user">
+                        <Link to="/notes/create">Create Note</Link>
+                        <Link to="/logout">Logout</Link>
+                        <span>| {username}</span>
+                    </div>
+                )}
+
+                {!isAuthenticated && (
+                    <div id="guest">
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>
+                    </div>
+                )}
+            </nav>
+        </header>
+    );
+}
