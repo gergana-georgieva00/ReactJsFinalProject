@@ -1,6 +1,11 @@
 import { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+
+import {
+    BrowserRouter as Router,
+  } from 'react-router-dom';
+
 import { AuthProvider } from './contexts/authContext';
 import Path from './paths';
 
@@ -16,8 +21,10 @@ import ErrorBoundary from './components/ErrorBoundary';
 import AuthGuard from './components/AuthGuard';
 const NoteDetails = lazy(() => import('./components/NoteDetails'));
 
+
 function App() {
     return (
+        <Router>
         <ErrorBoundary>
             <AuthProvider>
                 <div id="box">
@@ -40,6 +47,7 @@ function App() {
                 </div>
             </AuthProvider>
         </ErrorBoundary>
+        </Router>
     )
 }
 
