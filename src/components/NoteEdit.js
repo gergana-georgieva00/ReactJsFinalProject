@@ -9,7 +9,7 @@ export default function NoteEdit() {
     const [note, setNote] = useState({
         title: '',
         category: '',
-        maxLevel: '',
+        importance: '',
         imageUrl: '',
         summary: '',
     });
@@ -51,8 +51,17 @@ export default function NoteEdit() {
                     <label htmlFor="leg-title">Note title:</label>
                     <input type="text" id="title" name="title" value={note.title} onChange={onChange} placeholder="Enter note title..." />
 
-                    <label htmlFor="noteText">Note text:</label>
-                    <textarea name="noteText" value={note.text} onChange={onChange} id="noteText"></textarea>
+                    <label htmlFor="category">Category:</label>
+                    <input type="text" id="category" name="category" value={note.category} onChange={onChange} placeholder="Enter note category..." />
+
+                    <label htmlFor="importance">Level of importance:</label>
+                    <input type="number" id="importance" name="importance" value={note.importance} onChange={onChange} min="1" placeholder="1" />
+
+                    <label htmlFor="note-img">Image:</label>
+                    <input type="text" id="imageUrl" name="imageUrl" value={note.imageUrl} onChange={onChange} placeholder="Upload a photo..." />
+
+                    <label htmlFor="summary">Summary:</label>
+                    <textarea name="summary" value={note.summary} onChange={onChange} id="summary"></textarea>
                     <input className="btn submit" type="submit" value="Edit Note" />
                 </div>
             </form>

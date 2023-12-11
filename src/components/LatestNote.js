@@ -4,14 +4,18 @@ import { pathToUrl } from "../utils/pathUtils";
 
 export default function LatestNote({
     _id,
+    imageUrl,
     title,
 }) {
     return (
         <div className="note">
-            <h3>{title}</h3>
-            <div className="data-buttons">
-                <Link to={pathToUrl(Path.NoteText, { noteId: _id })} className="btn text-btn">Details</Link>
-            </div>
+        <div className="image-wrap">
+            <img src={imageUrl} />
         </div>
+        <h3>{title}</h3>
+        <div className="data-buttons">
+            <Link to={pathToUrl(Path.NoteDetails, { noteId: _id })} className="btn details-btn">Details</Link>
+        </div>
+    </div>
     );
 }

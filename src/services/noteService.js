@@ -8,8 +8,8 @@ export const getAll = async () => {
     return result;
 };
 
-export const getOne = async (gameId) => {
-    const result = await request.get(`${baseUrl}/${gameId}`, );
+export const getOne = async (noteId) => {
+    const result = await request.get(`${baseUrl}/${noteId}`, );
 
     return result;
 }
@@ -22,16 +22,16 @@ export const getLatest = async () => {
     return result;
 }
 
-export const create = async (gameData) => {
-    const result = await request.post(baseUrl, gameData);
+export const create = async (noteData) => {
+    const result = await request.post(baseUrl, noteData);
 
     return result;
 };
 
-export const edit = async (gameId, gameData) => {
-    const result = await request.put(`${baseUrl}/${gameId}`, gameData);
+export const edit = async (noteId, noteData) => {
+    const result = await request.put(`${baseUrl}/${noteId}`, noteData);
 
     return result;
 };
 
-export const remove = async (gameId) => request.remove(`${baseUrl}/${gameId}`);
+export const remove = async (noteId) => request.remove(`${baseUrl}/${noteId}`);

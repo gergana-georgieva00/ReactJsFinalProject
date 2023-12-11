@@ -22,13 +22,23 @@ export default function NoteCreate() {
 
     return (
         <section id="create-page" className="auth">
-            <form id="create" onSubmit={createNoteSubmitHandler}>
+            <form id="create" onSubmit={createGameSubmitHandler}>
                 <div className="container">
                     <h1>Create Note</h1>
                     <label htmlFor="leg-title">Note title:</label>
                     <input type="text" id="title" name="title" placeholder="Enter note title..." />
-                    <label htmlFor="noteText">Text:</label>
-                    <textarea name="noteText" id="noteText"></textarea>
+
+                    <label htmlFor="category">Category:</label>
+                    <input type="text" id="category" name="category" placeholder="Enter note category..." />
+
+                    <label htmlFor="importance">Level of importance:</label>
+                    <input type="number" id="importance" name="importance" min="1" placeholder="1" />
+
+                    <label htmlFor="note-img">Image:</label>
+                    <input type="text" id="imageUrl" name="imageUrl" placeholder="Upload a photo..." />
+
+                    <label htmlFor="summary">Summary:</label>
+                    <textarea name="summary" id="summary"></textarea>
                     <input className="btn submit" type="submit" value="Create Note" />
                 </div>
             </form>
